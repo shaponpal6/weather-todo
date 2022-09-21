@@ -56,7 +56,7 @@ const AppLayout = (props: any) => {
                                 textDecoration: 'none',
                             }}
                         >
-                            LOGO
+                            Weather Todo
                         </Typography>
 
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
