@@ -12,11 +12,13 @@ import { ITodo, AddTodo, IEdit, UpdateTodo } from '../types';
 
 interface TodoListProps {
   todos: ITodo[];
+  addTodo?: AddTodo;
   updateTodo?: UpdateTodo;
 }
 
 interface TodoItemProps {
   todo: ITodo;
+  addTodo?: AddTodo;
   updateTodo?: UpdateTodo;
 }
 interface TodoFormProps {
@@ -37,13 +39,13 @@ function TodoForm({ addTodo, updateTodo, edit }: TodoFormProps) {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (!state || /^\s*$/.test(state)) return;
-    if(edit && edit.id && edit.id > 0){
-      if(updateTodo) {
+    if (edit && edit.id && edit.id > 0) {
+      if (updateTodo) {
         console.log('##edit.id, state', edit.id, state)
         updateTodo(edit.id, state)
       };
-    }else{
-      if(addTodo) addTodo({
+    } else {
+      if (addTodo) addTodo({
         id: Date.now(),
         label: state,
         important: false,
@@ -58,8 +60,8 @@ function TodoForm({ addTodo, updateTodo, edit }: TodoFormProps) {
       component="form"
       sx={{
         width: '100%',
-        justifyContent: 'center', 
-        alignItems: 'center' 
+        justifyContent: 'center',
+        alignItems: 'center'
       }}
       spacing={2}
       noValidate
@@ -79,7 +81,7 @@ function TodoForm({ addTodo, updateTodo, edit }: TodoFormProps) {
   );
 }
 
-function TodoItem({ todo, updateTodo }: TodoItemProps) {
+function TodoItem({ todo, addTodo, updateTodo }: TodoItemProps) {
   const { removeTodo, onToggleImportant, onToggleLike } = useContext(Context);
 
   const [edit, setEdit] = useState({
@@ -88,7 +90,7 @@ function TodoItem({ todo, updateTodo }: TodoItemProps) {
   });
 
   const editTodo = (id: number, label: string) => {
-    if(updateTodo) updateTodo(id, label);
+    if (updateTodo) updateTodo(id, label);
     setEdit({
       id: 0,
       label: ''
@@ -96,7 +98,7 @@ function TodoItem({ todo, updateTodo }: TodoItemProps) {
   };
 
   if (edit.id) {
-    return <TodoForm edit={edit} updateTodo={editTodo}/>;
+    return <TodoForm edit={edit} updateTodo={editTodo} />;
   }
 
   let classNames = 'black';
@@ -109,11 +111,11 @@ function TodoItem({ todo, updateTodo }: TodoItemProps) {
 
   return (
     <Card sx={{ display: 'flex', margin: '10px' }}>
-        <CardContent sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-          <Typography component="div" variant="h5" color={classNames} onClick={() => onToggleLike(todo.id)}>
-            {todo.label}
-          </Typography>
-          <div style={{flex: 1}}/>
+      <CardContent sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+        <Typography component="div" variant="h5" color={classNames} onClick={() => onToggleLike(todo.id)}>
+          {todo.label}
+        </Typography>
+        <div style={{ flex: 1 }} />
         <Stack direction="row" spacing={2}>
           <Button variant="contained" color="info" onClick={() => onToggleLike(todo.id)}>
             Completed
@@ -128,12 +130,15 @@ function TodoItem({ todo, updateTodo }: TodoItemProps) {
             Delete
           </Button>
         </Stack>
-        </CardContent>
+      </CardContent>
     </Card>
   );
 }
 
-export default function TodoList({ todos, updateTodo }: TodoListProps) {
-  const elements = todos.map((todo) => <TodoItem  key={todo.id} todo={todo} updateTodo={updateTodo} />);
-  return <>{todos.length > 0 ? elements : <h4>No Tasks!</h4>}</>;
+export default function TodoList({ todos, addTodo, updateTodo }: TodoListProps) {
+  const elements = todos.map((todo) => <TodoItem key={todo.id} todo={todo} updateTodo={updateTodo} addTodo={addTodo} />);
+  return <>{todos.length > 0 ? (<>
+    {elements}
+    <TodoForm addTodo={addTodo} updateTodo={updateTodo} />
+  </>) : <h4>No Tasks!</h4>}</>;
 }

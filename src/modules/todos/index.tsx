@@ -16,7 +16,6 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { initialTodo } from './initialTodo';
 import TodoList from '../../components/TodoList';
-import TodoForm from '../../components/TodoForm';
 import TodoSearch from '../../components/TodoSearch';
 import TodoHeader from '../../components/TodoHeader';
 import TodoFilter from '../../components/TodoFilter';
@@ -97,16 +96,15 @@ export default function TodoApp() {
         <CssBaseline />
         <Container>
           <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }}>
-            <TodoHeader likedTodo={likedTodo} allTodos={allTodos}>
-                <TodoSearch updateSearch={updateSearch} />
-                <div style={{flex: 1}}/>
-                <TodoFilter filt={filt} updateFilter={updateFilter} />
-            </TodoHeader>
+          <Context.Provider value={{ removeTodo, updateTodo, onToggleImportant, onToggleLike }}>
+              <TodoHeader likedTodo={likedTodo} allTodos={allTodos}>
+                  <TodoSearch updateSearch={updateSearch} />
+                  <div style={{flex: 1}}/>
+                  <TodoFilter filt={filt} updateFilter={updateFilter} />
+              </TodoHeader>
             
-            <Context.Provider value={{ removeTodo, updateTodo, onToggleImportant, onToggleLike }}>
-              <TodoList todos={visibleTodos} updateTodo={updateTodo} />
+              <TodoList todos={visibleTodos} addTodo={addTodo} updateTodo={updateTodo} />
             </Context.Provider>
-            <TodoForm addTodo={addTodo} updateTodo={updateTodo} />
           </Box>
         </Container>
       </React.Fragment>
