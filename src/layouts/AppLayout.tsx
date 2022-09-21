@@ -34,7 +34,6 @@ const AppLayout = (props: any) => {
     };
 
     const handleCloseNavMenu = () => {
-        console.log('anchorElNav', anchorElNav)
         setAnchorElNav(null);
     };
 

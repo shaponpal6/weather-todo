@@ -8,6 +8,9 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
+import IconButton from '@mui/material/IconButton';
+import AlarmIcon from '@mui/icons-material/Alarm';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { ITodo, AddTodo, IEdit, UpdateTodo } from '../types';
 
 interface TodoListProps {
@@ -30,8 +33,7 @@ interface TodoFormProps {
 function TodoForm({ addTodo, updateTodo, edit }: TodoFormProps) {
   const [state, setState] = useState(edit ? edit.label : '');
   const id = useId();
-
-  console.log('edit', id, edit)
+  const mobile = useMediaQuery('(max-width:600px)');
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState(e.target.value);
   };
@@ -41,7 +43,6 @@ function TodoForm({ addTodo, updateTodo, edit }: TodoFormProps) {
     if (!state || /^\s*$/.test(state)) return;
     if (edit && edit.id && edit.id > 0) {
       if (updateTodo) {
-        console.log('##edit.id, state', edit.id, state)
         updateTodo(edit.id, state)
       };
     } else {
@@ -83,6 +84,7 @@ function TodoForm({ addTodo, updateTodo, edit }: TodoFormProps) {
 
 function TodoItem({ todo, addTodo, updateTodo }: TodoItemProps) {
   const { removeTodo, onToggleImportant, onToggleLike } = useContext(Context);
+  const mobile = useMediaQuery('(max-width:600px)');
 
   const [edit, setEdit] = useState({
     id: 0,
@@ -111,22 +113,22 @@ function TodoItem({ todo, addTodo, updateTodo }: TodoItemProps) {
 
   return (
     <Card sx={{ display: 'flex', margin: '10px' }}>
-      <CardContent sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+      <CardContent sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', justifyContent: 'space-between', width: '100%' }}>
         <Typography component="div" variant="h5" color={classNames} onClick={() => onToggleLike(todo.id)}>
           {todo.label}
         </Typography>
         <div style={{ flex: 1 }} />
-        <Stack direction="row" spacing={2}>
-          <Button variant="contained" color="info" onClick={() => onToggleLike(todo.id)}>
+        <Stack direction="row" spacing={1} sx={{ justifyContent: 'center' }}>
+          {/* <Button variant="contained" color="info" size="small" onClick={() => onToggleLike(todo.id)}>
             Completed
           </Button>
-          <Button variant="contained" color="success" onClick={() => onToggleImportant(todo.id)}>
+          <Button variant="contained" color="success" size="small" onClick={() => onToggleImportant(todo.id)}>
             Important
-          </Button>
-          <Button variant="contained" color="warning" onClick={() => setEdit({ id: todo.id, label: todo.label })}>
+          </Button> */}
+          <Button variant="contained" color="warning" size="small" onClick={() => setEdit({ id: todo.id, label: todo.label })}>
             Edit
           </Button>
-          <Button variant="outlined" color="error" onClick={() => removeTodo(todo.id)} startIcon={<DeleteIcon />}>
+          <Button variant="outlined" color="error" size="small" onClick={() => removeTodo(todo.id)} startIcon={<DeleteIcon />}>
             Delete
           </Button>
         </Stack>
