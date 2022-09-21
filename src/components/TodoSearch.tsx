@@ -30,7 +30,6 @@ export default function TodoSearch({ updateSearch }: TodoSearchProps) {
         <TextField
           hiddenLabel
           id="filled-hidden-label-normal"
-          defaultValue="Normal"
           variant="filled"
           onChange={onUpdate}
           value={search}

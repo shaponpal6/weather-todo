@@ -54,7 +54,6 @@ export default function TodoForm({ addTodo, updateTodo, edit }: TodoFormProps) {
       <TextField
         hiddenLabel
         id="filled-hidden-label-normal"
-        defaultValue="Update tasks"
         variant="filled"
         onChange={handleChange}
         value={state}
