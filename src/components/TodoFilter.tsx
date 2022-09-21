@@ -21,7 +21,7 @@ export default function TodoFilter({ updateFilter, filt }: TodoFilterProps) {
     const active = filt === item.name;
     const color = active ? "success" : "primary";
     return (
-      <Button key={item.name} color={color} onClick={() => onSelect(item)} variant="contained">{item.label}</Button>
+      <Button key={item.name} color={color} size="small" onClick={() => onSelect(item)} variant="contained">{item.label}</Button>
     );
   });
 
