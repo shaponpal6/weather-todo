@@ -1,24 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 import './App.css';
+import GraphQLPage from './pages/GraphQLPage';
+import MyTasksPage from './pages/MyTasksPage';
+import WeatherPage from './pages/WeatherPage';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<WeatherPage />}>
+            <Route index element={<WeatherPage />} />
+          </Route>
+          <Route path="/tasks" element={<MyTasksPage />}>
+            <Route index element={<MyTasksPage />} />
+          </Route>
+          <Route path="/graphql" element={<GraphQLPage />}>
+            <Route index element={<GraphQLPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
