@@ -12,8 +12,14 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { Link } from "react-router-dom";
 
 const pages = ['Forcast', 'My Tasks', 'GraphQL'];
+const pages2 = [
+    {route: '/', label:'Forcast'},
+    {route: '/tasks', label:'My Tasks'},
+    {route: '/graphql', label:'Graph QL'},
+];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const AppLayout = (props: any) => {
@@ -28,6 +34,7 @@ const AppLayout = (props: any) => {
     };
 
     const handleCloseNavMenu = () => {
+        console.log('anchorElNav', anchorElNav)
         setAnchorElNav(null);
     };
 
@@ -88,9 +95,11 @@ const AppLayout = (props: any) => {
                                     display: { xs: 'block', md: 'none' },
                                 }}
                             >
-                                {pages.map((page) => (
-                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center">{page}</Typography>
+                                {pages2.map((page, i) => (
+                                    <MenuItem key={i} onClick={handleCloseNavMenu}>
+                                        <Link to={page.route}>
+                                            <Typography textAlign="center">{page.label}</Typography>
+                                        </Link>
                                     </MenuItem>
                                 ))}
                             </Menu>
@@ -115,14 +124,15 @@ const AppLayout = (props: any) => {
                             Weather Todo App
                         </Typography>
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                            {pages.map((page) => (
+                            {pages2.map((page, i) => (
+                                <Link key={i} to={page.route}>
                                 <Button
-                                    key={page}
                                     onClick={handleCloseNavMenu}
                                     sx={{ my: 2, color: 'white', display: 'block' }}
                                 >
-                                    {page}
+                                    {page.label}
                                 </Button>
+                                </Link>
                             ))}
                         </Box>
 
